@@ -1,0 +1,31 @@
+Package: Meta.data
+Type: Package
+Title: Creates and Applies meta.data templates onto (sets of) variables
+Version: 0.1.0
+Author: Brett Buttliere
+Maintainer: Brett Buttliere <brettbuttliere@gmail.com>
+Description: This package contains the basic functions for creating meta.data 
+    templates, editing them, writing them out, and applying them to other variables.
+    It follows the recommendations in Buttliere (2021) on variable meta.data, and 
+    the goal will be to create templates and make them available for commonly used 
+    variables and scales, such that a person can search in repositories for 
+    variables. 
+    create.meta() creates a basic meta.data template which can be edited. 
+    change.meta() changes an existing template, edit would have been better but 
+    it already is a function, even if not a very good one. 
+    write.meta() writes out the attributes (i.e., meta.data) to a template. 
+    write.metas() does write.meta() for a range of variables. 
+    apply.meta() applies a template to a variable. 
+    apply.metas() applies a series of templates to a series of variables. Using 
+    this function requires active thinking and checking to apply metas correctly. If
+    the variables are not in the same order, for instance, you will apply the 
+    templates incorrectly. 
+License: CC BY 4.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Imports: dplyr
+cph: Brett Buttliere
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
