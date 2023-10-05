@@ -2,7 +2,7 @@
 
 #' Applies meta.data.templates to a range of variables.
 #' @import dplyr
-#' @export
+
 #' @param variable.set is a data.frame containing multiple variables, which we want to apply meta.data to.
 #' @param template.set is a set of templates, that we want to apply onto the variables indicated in variable.set.
 #' @returns a data frame, containing the variables with the templates applied.
@@ -37,7 +37,7 @@
 #'
 #'
 #'
-
+#' @export
 
 
 

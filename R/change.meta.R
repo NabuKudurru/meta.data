@@ -1,5 +1,5 @@
 #' Edits the meta.data of an indicated variable.
-#' @export
+#'
 #'
 #' @param variable is a set of variables that you want to get the meta.data of
 #' @param long.label is for indicating the long name of a variable
@@ -39,7 +39,7 @@
 #'         full.text = 'this is another test of something',
 #'         associated.ids = 'this is new one',
 #'         replace = TRUE)
-
+#' @export
 
 
 change.meta <- function(variable =NA ,

@@ -10,7 +10,7 @@
 #' @param comments anything else that does not have a space so far.
 #'
 #' @returns a variable with the attributes attached.
-#' @export
+
 #'
 #' @examples
 #' iris$Sepal.Length <- create.meta(iris$Sepal.Length,
@@ -33,7 +33,7 @@
 #'
 #'
 #'
-
+#' @export
 
 create.meta <- function( variable =NA , long.label =NA , full.text =NA ,
           value.labels =NA , missing =NA , associated.ids =NA , comments =NA ){#Define areas

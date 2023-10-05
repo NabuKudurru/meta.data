@@ -1,6 +1,5 @@
 
 #' This function gathers the attributes of a variable and creates a data.frame
-#' @export
 #'
 #' @param variable is a variable that you want to get the meta.data/ attributes of.
 #' @returns a data.frame with the meta.data for the variable attached.
@@ -28,15 +27,21 @@
 #'
 #' write.meta(iris$Sepal.Width)
 #'
-
-
-write.meta <- function(variable) {
-  part.1 <-  as.data.frame(t(cbind(attributes(variable))))
-  return(part.1)}
-
+#'
+#'
+#' @export
 
 
 
+ write.meta <- function(variable) {
+   if (is.null(attributes(variable)))
+   {missing <- create.meta(variable )
+   part.1 <-  as.list(strsplit(as.character(substitute(variable)), '$'))
+   attributes(temp.1 )$variable.label <- part.1[[length(part.1)]]
+      temp1 <- as.data.frame(rbind(attributes(missing)))
+      return(temp1)}
+   else { temp1 <-  as.data.frame(rbind(attributes(variable)))}
+   return(temp1)}
 
 
 

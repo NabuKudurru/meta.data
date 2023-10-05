@@ -1,0 +1,182 @@
+---
+title: "meta.data"
+author: "Brett Buttliere"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{meta.data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+#The core problem with metadata
+	Datasets become available online, with even thousands of repositories having been created (re3data.org), but this has resulted in further unclarity and uncertainty about where to find data for e.g., meta-analysis or reuse. 
+		**bold**The main problem is that variables are not indicated systematically in datasets, which means that neither datasets nor analysis scripts can be easily shared, because they have to be recoded – even when they are studying exactly the same or similar variables (e.g., citations, income, gender, measures of personality). **bold**
+		A perfect example can be had by looking at the gender variable across a small sample of datasets available on the PsychData repository, which is a repository for German psychological data. One might think that indicating gender is relatively straightforward, but in fact we found dozens of different ways that gender was coded (e.g., SEX, GENDER, GESCH, GESCHL, GESCHLECHT, KIGESCH, M_W, T1SEX, V383, U1, V102, S_2, VPSEX, SEX0, SEXCODE1, SEX1, IGESCHL, VPI00GEN, AKSEX, SEX_T1, and SP1_A). These are just the variable names, and do not consider how the data are actually encoded, whether males are coded as m, 1, 2, M, male, man, manner, or etc. 
+	This nonstandardization extends to specific scales in the area the Rosenberg Self Esteem Scale, and even though the scale has been used thousands of times, there is no way to systematically find, combine, and reanalyze these larger datasets. 
+#The meta.data R package solves these problems
+	The meta.data () R package solves these problems by giving researchers the ability to create, save out, share, reimport, and apply these meta.data templates to their variables. This is done from within R and directly applicable to the variables in one's data set. Below we will see how to do this in each of the sections. 
+  The main goal is that users can index existing templates for the variables they are using from within R and applying them directly onto their datasets. These include not only scales but also experimental variables like condition, trial number, participant id, measurement number, gender, income, citations, personality scale questions. 
+	**bold**There is no need to get everyone using the exact same meta.data, so long as you and your collaborators use minimally similar templates you can share datasets and analysis scripts.**bold** The meta.data package makes this possible by allowing you to share meta.data templates for commonly used variables. 
+		**bold**The key is that once one is using the standard templates, one can also plug into standard analysis and plot scripts, which eases the researcher's work,**bold** even while making the work more standard and reproducible. It is an example of the needed realignment of incentives between being effective and being transparent (Buttliere, 2014). It also makes the data available for meta.analyses, searchable in the data repositories, and in general more reusable and clear.
+	The long term goal of the project is to maintain an online library that maintains these meta.data templates, across (programming) languages, and make it such that someone could give them to e.g., Qualtrics and have the question automatically properly added to their survey, and thus plugged into the pipeline, which eventually leads to large scale meta.analyses using these many datasets. This begins with researchers establishing common variable label, meta.data, and analysis script norms (Buttliere, 2021). 
+	Let's examine how we can make this a reality using the commonly used iris dataset from Pearson that is often used to teach R. 
+
+##Example dataset: Iris in base r
+
+If you have ever used the iris data, which is made available in base R commonly used to teach R (https://rpubs.com/moeransm/intro-iris), you might have wondered what exactly the variables actually are and mean. What is 'Sepal.Length' and what do the numbers mean in the column? Where do the actual data come from? Are they associated with some paper? 
+	Such questions arise because of a lack of meta.data. So, let's use the meta.data() framework to indicate more completely what this variable means. The Iris dataset was introduced by Ronald Fisher to introduce Linear Discrimant Analysis ... (Fisher, 1936). You can read quite a bit about it on Wikipedia, but basically a measure of 3 types of flowers. In the example below we apply meta.data to the iris dataset using the variables available in the meta.data package. 
+	
+	So, let's use the meta.data() R package to indicate more completely what these variables mean.Since there is no existing meta.data for the variable, we first need to create.meta().
+	
+##create.meta() creates new meta.data about a variable. 
+	Since there is no existing meta.data for the variables in iris, lets set it using the create.meta() function. The create.meta() function allows us to indicate the following attributes: 
+    long.label  - a long label, sor searching the library with, unique to it. 
+    full.text – the full text of the question or indication of the metric. 
+    value.labels – what the content of the variable means. 
+    missing – what is the missing indicator (often but not always NA or NaN)
+    associated.ids – dois, ORCIDs, UniIDs, GrantIDs, ScriptIDs, etc. 
+    comment – a general catchall into which one can implement any ISO standard or any other meta.data that one wants to use. 
+
+	As the following examples indicate, the function takes a variable as input, along with several additional indicators for potential meta.data variables, such as the full text of the question, the value labels, what is the missing indicator, associated ids, and a general comments section. 
+
+```{r}
+iris.1 <- iris
+iris.1$Sepal.Length <- create.meta(iris$Sepal.Length,
+	long.label = 'indicator of the sepal length',	
+	full.text = 'Variable indicating the length of the Sepal',
+	value.labels = 'cm',
+	missing = 'NA' ,
+	associated.ids = 'doi:, orcid, UniIS, location id, date collected',
+	comments = 'this is an example of more detailed meta.data, one could implement any other meta.data or meta.data standard here.')
+iris$Sepal.Length
+iris.1$Sepal.Length# contains the meta.data
+```
+
+	You can see that the original iris variable has no meta.data and that the iris.1 variable does have the meta.data. These are only example meta.data and they can in principle contain anything you would like, including any meta.data standard, so long as it can fit into a string and be parsed by a computer back into its native format. 
+	When creating and or changing the meta.data for a variable, it is important to either write over the original or save it to another object and use that new object for further analysis, otherwise the function will only return the changes in the meta.data, and not save them to any object. Normal R stuff. 
+	The code below creates meta.data for each of the variables in the iris dataset. 
+
+```{r}
+iris.1$Sepal.Width <- create.meta(iris$Sepal.Width,
+   full.text = 'Variable indicating the width of the sepal.',
+   value.labels = 'cm',
+   missing = 'NA' ,
+   comments = 'this is an example of more detailed meta.data 2')
+iris.1$Petal.Length <- create.meta(iris$Petal.Length,
+   full.text = 'Variable indicating the length of the petal',
+   value.labels = 'cm',
+   missing = 'NA' ,
+   comments = 'this is an example of more detailed meta.data 3 ')
+
+iris.1$Petal.Width <- create.meta(iris$Petal.Width,
+   full.text = 'Variable indicating the width of the petal',
+   value.labels = 'cm',
+   missing = 'NA' ,
+   comments = 'this is an example of more detailed meta.data 4 ')
+
+iris.1$Species  <- create.meta(iris$Species,
+   full.text = 'Variable indicating the type of iris.',
+   value.labels = 'indicating the genus',
+   missing = 'NA' ,
+   comments = 'this is an example of more detailed meta.data 5 ')
+```
+  Again, these are only example meta.data templates, and they will become important when we start working meta.data at the data.frame level. Still, you can hopefully imagine how adding these sorts of meta.data to one's variables could change and improve the clarity of one's data sets and analysis scripts. 
+  If you do some analyses on both iris and iris.1, you will notice that there are no changes in terms of the means or the relations between the variables, as the meta.data are truly meta. If you do notice errors, email us because we want to know about them! 
+```{r}
+mean(iris$Sepal.Length)
+mean(iris.1$Sepal.Length)
+```
+  	While this is already an interesting function, the key is that we can write these meta.data out and make them available online for other people to use. From here we can easily make them available online, and other people can download them and reapply it with the apply.meta() function. Lets do this below. 
+
+##write.meta() writes out the meta.data about a single variable. 
+  Creating meta.data about a variable is useful, but without the ability to write it out or share it, the function is limited. In fact, one has always had the ability to create meta.data about a variable using the attributes() function, but there was not any systematic effort and no way to share these meta.data, this is the real goal the package is working to solve. 
+  Thus, the write.meta() function allows one to save out the meta.data about a file, which also means they can be shared online or any other file sharing means. The write.meta() function takes the meta.data for a variable and makes it a list, which can then be assigned to e.g., a data.frame of meta.data about the data.set. 
+This list of data frame can of course also be manipulated by its self or as part of a set. 
+```{r}
+write.meta(iris.1$Sepal.Length)
+meta.Sepal.Length <- write.meta(iris.1$Sepal.Length)
+```
+  The above code simply prints the meta.data for a single variable, and then assigns it to some new variable. Pretty straight forward. It gets more interesting, and one can see how it could be useful for actual use when one begins combining it with other meta.data. 
+```{r}
+meta.Sepal.Width <- write.meta(iris.1$Sepal.Width)
+meta <- dplyr::full_join(meta.Sepal.Length, meta.Sepal.Width)
+View(meta)
+```
+  The above code pulls the meta.data for another the Sepal.Width variable,  applies it to another object, and then combines the objects. full_join is used from the dplyr package in case the variables do not have the same number of meta.data fields (which in this case is columns). 
+  There is a better way to do this, the write.metas() variable will pull meta.data from any list of variables and this is the one to use when creating meta.data about a particular scale or dataset. 
+
+#write.metas() writes out the meta.data for a set of variables or entire data.set. 
+  The write.metas() function simply goes through each variable in a defined list of variables, and applies the write.meta() function on to the variable, then combining each of these onto a meta.data dataframe. These variables do not necessarily need to even be in the same data.set, though this is not a recommended practice. 
+  The below code creates an data.frame object that contains the meta.data for the iris data.set. This can then be put online, and others can then download and apply.meta(), which we cover next. 
+  
+```{r}
+iris.1.metas <- write.metas(iris.1)
+View(iris.1.metas)
+#write.csv(iris.metas)
+```
+  This file can then be written out to the computer or anywhere, shared, read back in, and applied back onto the data set with apply.meta. 
+  
+##apply.meta() applies an existing template to a variable.  
+  Once one has a template one wants to apply onto a variable, one can do this using the apply.meta() function. Remember that when we started we created a new variable when writing meta.data onto the iris dataset. Let's first confirm that the original iris$Sepal.Length variable contains no meta.data. 
+```{r}
+iris$Sepal.Length#there is no meta.data on it
+```
+  Also remember that we have this meta.data saved in the meta.1 object, thus, let's apply the meta.data in that object onto the iris$Sepal.Length variable. 
+```{r}
+meta.Sepal.Length# created above with write.meta()
+iris$Sepal.Length# notice that the original variable has no meta.data.
+iris.2 <- iris
+iris.2$Sepal.Length <- apply.meta(iris.2$Sepal.Length, meta.Sepal.Length)
+iris.2$Sepal.Length
+
+```
+  The first argument is the variable we want to apply the template onto, and the second argument is the template to apply. You can easily compare iris, iris.1, and iris.2 to see that everything happened as it should. In this case we should expect iris.Sepal.Length to have no meta.data, and for the meta.data for iris.1.Sepal.Length and iris.2.Sepal.Length to be the same. 
+```{r}
+iris$Sepal.Length# original dataset, no meta.data. 
+iris.1$Sepal.Length# meta.data written manually.
+iris.2$Sepal.Length# meta.data written with a template. 
+```
+  From here it should be clear how a researcher could make available a meta.data template for a particular variable, and then for other people to take that file and apply it onto their own dataset to make them comparable. 
+  Before demonstrating how we could make such a found meta.data template particular for our own use (edit.meta()), let's examine how to apply a series of templates to a series of variables. 
+  
+#apply.metas() applies a series of templates to a series of variables. 
+  In order to facilitate the use of the tool for the standardization of scale meta.data, the apply.metas() applies a series of templates to a series of variables. In this way, one can apply e.g., the Rosenberg Self Esteem Scales to the 10 questions in the data.frame which represent that scale without having to retype it 10 times. 
+  This function also makes it easy to apply the meta.data from one survey to another, in a series of surveys, which are largely the same except for some small changes. 
+  Importantly,this function also makes it easy to screw up the meta.data and understanding of a variable if one is not careful. In the future we expect to write in an option to ensure that the variable labels are the same or not, such that it only applies meta.data for varx if the variable label for varx matches. 
+```{r}
+iris.3 <- apply.metas(iris, iris.1.metas)
+write.metas(iris)
+write.metas(iris.3)
+```
+  The above function makes it easy to apply some list of template to some list of variables, as was demonstrated. The uses for this are many, such as applying meta.data for a standard scale onto the variables in the data.set. 
+  
+##edit.meta() changes and adds to the meta for a variable. 
+  While one can hopefully often apply variable templates to one's data.sets, there is a high probability that one needs to edit that meta.data in some way, for instance to indicate a different location, or associated paper. 
+  The edit.meta() function allows one to overwrite the existing meta.data or add to it, using the replace argument. Below we edit the meta.data on iris.3 using the edit.meta() function. First we simply replace it, then we add to it. By default replace is false, so that it only adds new meta.data to the existing. 
+```{r}
+iris.3$Sepal.Length #See the most recent sepal length, as applied from the template. 
+edit.meta(iris.3$Sepal.Length, comments ='Here we replaced the meta.data', replace = T)
+
+```
+  
+  
+  
+
+
+
+
+
+
+
+
+
+

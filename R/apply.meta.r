@@ -1,6 +1,6 @@
 #' Applies a meta.data template onto an indicated variable.
 #'
-#' @export
+
 #'
 #' @param variable is the variable that we want to apply the template to
 #' @param template is the template that we want to apply to the variable.
@@ -30,7 +30,7 @@
 #'
 #'
 #'
-
+#' @export
 apply.meta <- function( variable =NA , template = NA){
   original <- variable
   template.2 <- as.list(template)

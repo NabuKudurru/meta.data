@@ -1,0 +1,6 @@
+"","variable.label","long.label","full.text","value.labels","missing","associated.ids","comment","levels","class"
+"1","Sepal.Length","NA","Variable indicating the length of the Sepal","cm","NA","NA","this is an example of more detailed meta.data","NULL","NULL"
+"2","Sepal.Width","NA","Variable indicating the Width of the Sepal","cm","NA","NA","this is an example of more detailed meta.data 2","NULL","NULL"
+"3","Petal.Length","NA","Variable indicating the length of the petal","cm","NA","NA","this is an example of more detailed meta.data 3 ","NULL","NULL"
+"4","Petal.Width","NA","Variable indicating the width of the petal","cm","NA","NA","this is an example of more detailed meta.data 4 ","NULL","NULL"
+"5","Species","NA","Variable indicating the length of the Sepal","cm","NA","NA","this is an example of more detailed meta.data 5 ","c(""setosa"", ""versicolor"", ""virginica"")","factor"

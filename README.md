@@ -1,2 +1,2 @@
 # meta.data
- Package helps researchers create and apply meta.data to their variables.
+ Project helps apply meta.data templates in R

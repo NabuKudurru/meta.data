@@ -1,4 +1,4 @@
-Package: Meta.data
+Package: meta.data
 Type: Package
 Title: Creates and Applies meta.data templates onto (sets of) variables
 Version: 0.1.0
