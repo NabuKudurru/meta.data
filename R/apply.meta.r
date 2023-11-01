@@ -34,6 +34,12 @@
 apply.meta <- function( variable =NA , template = NA){
   original <- variable
   template.2 <- as.list(template)
-  attributes(original) <- template.2
-  return(original)}
+  modified.variable <- create.meta( original,
+                                    long.label  = template.2$long.label[[1]] ,
+                                    full.text  = template.2$full.text[[1]] ,
+                                    value.labels  = template.2$value.labels[[1]] ,
+                                    missing  = template.2$missing[[1]] ,
+                                    associated.ids  = template.2$associated.ids[[1]] ,
+                                    comments  = template.2$comments[[1]])
+  return(modified.variable)}
 

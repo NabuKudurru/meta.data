@@ -43,7 +43,7 @@
 
 write.metas <- function(variable.set) {
   part.2 <-  write.meta(variable.set[,1]) # creates a template to build from (in case it has nonstandard)
-  for (i in 1:length(variable.set)){ # for the other variables, of the length of this dataset, run below
+  for (i in 2:length(variable.set)){ # for the other variables, of the length of this dataset, run below
     write.meta <- function(variable) {
       if (is.null(attributes(variable)))
       {missing <- create.meta(variable )
