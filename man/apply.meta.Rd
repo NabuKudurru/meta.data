@@ -26,10 +26,6 @@ iris$Sepal.Width <- create.meta(iris$Sepal.Width,
                                 missing = 'NA' ,
                                 comments = 'this is an example of more detailed meta.data 2')
 
-write.meta <- function(variable) {
-part.1 <-  as.data.frame(t(cbind(attributes(variable))))
-return(part.1)}
-
 
 meta.sepal.width <- write.meta(iris$Sepal.Width)
 
