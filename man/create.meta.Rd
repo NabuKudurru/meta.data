@@ -6,6 +6,7 @@
 \usage{
 create.meta(
   variable = NA,
+  variable.label = NA,
   long.label = NA,
   full.text = NA,
   value.labels = NA,
