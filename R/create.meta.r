@@ -38,10 +38,14 @@
 create.meta <- function( variable =NA , variable.label = NA, long.label =NA , full.text =NA ,
           value.labels =NA , missing =NA , associated.ids =NA , comments =NA ){#Define areas
   original <- variable #make a copy
+
+  if ( is.na(variable.label)){
+
   part.1 <-  as.list(strsplit(as.character(substitute(variable)), '$'))
   #this says if there is a provided variable label, use it, otherwise take the variable name it is already assigned.
     if (!is.na(variable.label)) { attributes(original)$variable.label <- variable.label} else
-    {  attributes(original)$variable.label <- part.1[[length(part.1)]]}
+    {  attributes(original)$variable.label <- part.1[[length(part.1)]]}}
+  else{attributes(original)$variable.label	 <- c(	variable.label	)}
   #the rest are just normal comments etc.
   attributes(original)$long.label	 <- c(	long.label	)
   attributes(original)$full.text	 <- c(	full.text	)
