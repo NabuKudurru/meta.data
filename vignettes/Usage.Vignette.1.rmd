@@ -30,9 +30,7 @@ This is only the variable label, and does not consider yet how the variable is c
 **The problem is not that people don't agree on one single way to code it, but that there is not a clear way to indicate which coding scheme one is using.** There can be many ways of coding some particular variable, but they are specified by some some of Variable Object Identifier (VOI like a DOI). Once there are some generally agreed upon schemes and templates to apply, translators can be built. The meta.data() package will hopefully help you to create these templates, share them, get them from others, and apply them onto the variables in your data set. This then also opens e.g., standard analysis scripts,  searchable repositories, and analyses at true scale (Buttliere, 2021). 
 
 ## The meta.data R package solves these problems/ affords these possibilities
-The meta.data() R package enables researchers to create, write out, edit, and reapply meta.data templates to the variables in their data sets.
-
-These meta.data templates are for specific variables and sets of variables that are commonly used like demographic variables or standard social science scales. These templates can be stored online, pulled into a programming environment and applied onto variables, even automatically. 
+The meta.data() R package enables researchers to create, write out, edit, and reapply meta.data templates to the variables in their data sets. These meta.data templates are for specific variables and sets of variables that are commonly used like demographic variables or standard social science scales. These templates can be stored online, pulled into a programming environment and applied onto variables, even automatically. 
 
 ## meta.data templates make work easier and more reusable
 Utilizing meta.data templates *makes it easier for data creators* because they do not need to create a new meta.data scheme for their variables. Additionally, using the standard copings allows them to plug into these standard analysis and plot scripts, which saves analysis effort. One can go to an open paper, take their analysis script and 'more directly' apply it to your dataset because the variables are coded in the same way.  
@@ -99,7 +97,7 @@ mean(iris$Sepal.Length)#the means
 mean(iris.1$Sepal.Length)#are the same
 #As far as we know, it does not change any computation. If you find one it changes, please let us know! 
 ```
-Technically we do not need to create a new version of the variable, but we do need to assign the output of the function to something at the end. The function will automatically take the variable name and enter it as a variable label, which is important for combining sets of templates. We can enter any character vector we like into each of the sections, including other data sets which will be stored as meta.attributes of the variable e.g., particular other ISO standards in JSON variables. 
+It is important to assign the output of the function to some object if you want to use it further. If you leave the variable label section unfilled, the machine will take the variable that is assigned. We can enter any character vector we like into each of the sections, including other data sets which will be stored as meta.attributes of the variable e.g., particular other ISO standards in JSON variables. 
 
 You can see that iris.1$Sepal.Length has been assigned attributes 'attr' that correspond to the types of meta.data that are made available through the arguments of create.meta(). These are only example meta.data and they can in principle contain anything you would like, including any meta.data standard, so long as it can fit into a string/csv type and be parsed by a computer back into its native format, which is not that hard. 
 
@@ -109,32 +107,32 @@ The code below creates meta.data for the other variables in the Iris data set.
 
 ```{r}
 iris.1$Sepal.Width <- create.meta(iris$Sepal.Width,
-   full.text = 'Sepal.Width indicates the width of the sepal, the green leaves around the petals.',
-   value.labels = 'cm',
-   missing = 'NA' ,
-   associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
-   comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
+ full.text = 'Sepal.Width indicates the width of the sepal, the green leaves around the petals.',
+ value.labels = 'cm',
+ missing = 'NA' ,
+ associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
+ comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
 
 iris.1$Petal.Length <- create.meta(iris$Petal.Length,
-   full.text = 'Petal.Length indicates the length of the petal, the delicate colored part of the flower.',
-   value.labels = 'cm',
-   missing = 'NA' ,
-   associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
-   comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
+ full.text = 'Petal.Length indicates the length of the petal, the delicate colored part of the flower.',
+ value.labels = 'cm',
+ missing = 'NA' ,
+ associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
+ comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
 
 iris.1$Petal.Width <- create.meta(iris$Petal.Width,
-   full.text = 'Petal.Width indicates the width of the petal, the delicate colored part of the flower.',
-   value.labels = 'cm',
-   missing = 'NA' ,
-   associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
-   comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
+ full.text = 'Petal.Width indicates the width of the petal, the delicate colored part of the flower.',
+ value.labels = 'cm',
+ missing = 'NA' ,
+ associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
+ comments = 'This is from  R.A. Fishers classic 1936 paper introducing Linear Discriminant Analysis')
 
 iris.1$Species  <- create.meta(iris$Species,
-   full.text = 'Species indicates the type of Iris it is setosa, virginica, or versicolor.',
-   value.labels = 'indicating the three plant genus (setosa, virginica, versicolor) ',
-   missing = 'NA' ,
-   associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
-   comments = 'this is an example of more detailed meta.data 5 ')
+ full.text = 'Species indicates the type of Iris it is setosa, virginica, or versicolor.',
+ value.labels = 'indicating the three plant genus (setosa, virginica, versicolor) ',
+ missing = 'NA' ,
+ associated.ids = 'http://dx.doi.org/10.1111/j.1469-1809.1936.tb02137.x',
+ comments = 'this is an example of more detailed meta.data 5 ')
 ```
 
 After running the above, all of the variables in our edited iris.1 data set have meta.data about them. In the future, one hopefully will be able to find premade templates online, to keep you from having to do it, but there are still likely variables for which you will need to create.meta().  
